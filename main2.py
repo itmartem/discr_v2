@@ -44,7 +44,7 @@ def huffman_process(t):
     return m, e, d
 def main():
     if len(sys.argv) < 2:
-        print("Запуск python main2.py 'текст'")
+        print("""Запуск python main2.py "текст" """)
         sys.exit(1)
 
     t = sys.argv[1]
