@@ -3,20 +3,20 @@ import heapq
 from collections import Counter
 def build_tree(t):
     f = Counter(t)
-    h = [(c, s, None, None) for s, c in f.items()]
+    h = [(c, s if s is not None else '', None, None) for s, c in f.items()]
     heapq.heapify(h)
 
     while len(h) > 1:
         l = heapq.heappop(h)
         r = heapq.heappop(h)
-        n = (l[0] + r[0], None, l, r)
+        n = (l[0] + r[0], '', l, r)
         heapq.heappush(h, n)
     return h[0]
 def generate_huffman_codes(n, p="", m=None):
     if m is None:
         m = {}
 
-    if n[1] is not None:
+    if n[1]:
         m[n[1]] = p
     else:
         generate_huffman_codes(n[2], p + "0", m)
@@ -35,7 +35,7 @@ def decode_text(e, m):
     return ''.join(d)
 def huffman_process(t):
     if not t:
-        raise ValueError("Ошибка: нет текста")
+        raise ValueError("Нет текста")
 
     r = build_tree(t)
     m = generate_huffman_codes(r)
@@ -44,20 +44,20 @@ def huffman_process(t):
     return m, e, d
 def main():
     if len(sys.argv) < 2:
-        print("""Запуск python main2.py "текст" """)
+        print("Используйте: python3 script.py '<ваш текст>'")
         sys.exit(1)
 
     t = sys.argv[1]
     m, e, d = huffman_process(t)
 
-    print("Сообщение:")
+    print("\nДекодированное сообщение:")
     print(d)
 
     print("\nКоды Хаффмана:")
     for s, p in m.items():
         print(f"'{s}': {p}")
 
-    print("\nЗакодированное сообщение:XD")
+    print("\nЗакодированное сообщение:")
     print(e)
 
 if __name__ == "__main__":
